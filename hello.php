@@ -1,93 +1,77 @@
 <?php
 /**
- * @package Hello_Dolly
- * @version 1.7.2
+ * @package Hello_GNU
+ * @version 1.7.2-gnu
  */
 /*
-Plugin Name: Hello Dolly
-Plugin URI: http://wordpress.org/plugins/hello-dolly/
-Description: This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page.
-Author: Matt Mullenweg
-Version: 1.7.2
-Author URI: http://ma.tt/
+Plugin Name: Hello GNU
+Plugin URI: https://github.com/gnu-lucy/hello-gnu
+Description: This is not just a plugin, it symbolizes the spirit of GNU. When activated you will see lyrics from <cite>The Free Software Song</cite> in the upper right of your admin screen on every page.
+Author: Matt Mullenweg, GNU/Lucy
+Version: 1.7.2-gnu
+Author URI: https://twitter.com/gnu_lucy
 */
 
-function hello_dolly_get_lyric() {
-	/** These are the lyrics to Hello Dolly */
-	$lyrics = "Hello, Dolly
-Well, hello, Dolly
-It's so nice to have you back where you belong
-You're lookin' swell, Dolly
-I can tell, Dolly
-You're still glowin', you're still crowin'
-You're still goin' strong
-I feel the room swayin'
-While the band's playin'
-One of our old favorite songs from way back when
-So, take her wrap, fellas
-Dolly, never go away again
-Hello, Dolly
-Well, hello, Dolly
-It's so nice to have you back where you belong
-You're lookin' swell, Dolly
-I can tell, Dolly
-You're still glowin', you're still crowin'
-You're still goin' strong
-I feel the room swayin'
-While the band's playin'
-One of our old favorite songs from way back when
-So, golly, gee, fellas
-Have a little faith in me, fellas
-Dolly, never go away
-Promise, you'll never go away
-Dolly'll never go away again";
+function hello_gnu() {
+	/** These are the lyrics to The Free Software Song */
+	$lyrics = "Join us now and share the software; You'll be free, hackers, you'll be free.
+Hoarders can get piles of money, that is true, hackers, that is true.
+But they cannot help their neighbors; That's not good, hackers, that's not good.
+When we have enough free software at our call, hackers, at our call,
+We'll kick out those dirty licenses ever more, hackers, ever more.";
 
-	// Here we split it into lines.
-	$lyrics = explode( "\n", $lyrics );
-
-	// And then randomly choose a line.
-	return wptexturize( $lyrics[ mt_rand( 0, count( $lyrics ) - 1 ) ] );
-}
-
-// This just echoes the chosen line, we'll position it later.
-function hello_dolly() {
-	$chosen = hello_dolly_get_lyric();
-	$lang   = '';
+	$lang = '';
 	if ( 'en_' !== substr( get_user_locale(), 0, 3 ) ) {
-		$lang = ' lang="en"';
+		$lang = 'lang="en"';
 	}
 
 	printf(
-		'<p id="dolly"><span class="screen-reader-text">%s </span><span dir="ltr"%s>%s</span></p>',
-		__( 'Quote from Hello Dolly song, by Jerry Herman:', 'hello-dolly' ),
-		$lang,
-		$chosen
+		'<p id="gnu"><span class="screen-reader-text">%s </span><span dir="ltr" %s></span></p>',
+		__( 'Quote from The Free Software Song, by Richard Stallman:', 'hello-gnu' ),
+		$lang
 	);
+
+	// Display the lyrics repeatedly in javascript.
+	echo "<script>
+		let lyrics = `$lyrics`;
+		lyrics = lyrics.split('\\n');
+
+		const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
+		(async function() {
+			while(true) {
+				for(let i = 0; i < lyrics.length; i++) {
+					document.getElementById('gnu').children[1].textContent = lyrics[i];
+					await sleep(7800);  // This song is in a rhythm of 7/8.
+				}
+			}
+		})();
+	</script>";
 }
 
 // Now we set that function up to execute when the admin_notices action is called.
-add_action( 'admin_notices', 'hello_dolly' );
+add_action( 'admin_notices', 'hello_gnu' );
 
 // We need some CSS to position the paragraph.
-function dolly_css() {
+function gnu_css() {
 	echo "
 	<style type='text/css'>
-	#dolly {
+	#gnu {
 		float: right;
 		padding: 5px 10px;
 		margin: 0;
 		font-size: 12px;
 		line-height: 1.6666;
 	}
-	.rtl #dolly {
+	.rtl #gnu {
 		float: left;
 	}
-	.block-editor-page #dolly {
+	.block-editor-page #gnu {
 		display: none;
 	}
 	@media screen and (max-width: 782px) {
-		#dolly,
-		.rtl #dolly {
+		#gnu,
+		.rtl #gnu {
 			float: none;
 			padding-left: 0;
 			padding-right: 0;
@@ -97,4 +81,4 @@ function dolly_css() {
 	";
 }
 
-add_action( 'admin_head', 'dolly_css' );
+add_action( 'admin_head', 'gnu_css' );

@@ -1,13 +1,13 @@
-=== Hello Dolly ===
-Contributors: matt, wordpressdotorg
-Stable tag: 1.7.2
-Tested up to: 6.1
+=== Hello GNU ===
+Contributors: matt, wordpressdotorg, GNU/Lucy
+Stable tag: 1.7.2-gnu
+Tested up to: 6.3
 Requires at least: 4.6
 
-This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong.
+This is not just a plugin, it symbolizes the spirit of GNU.
 
 == Description ==
 
-This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page.
+This is not just a plugin, it symbolizes the spirit of GNU. When activated you will see lyrics from <cite>The Free Software Song</cite> in the upper right of your admin screen on every page.
 
-Thanks to Sanjib Ahmad for the artwork.
+Thanks to Richard Stallman for the artwork.
